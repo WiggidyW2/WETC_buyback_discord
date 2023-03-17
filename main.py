@@ -68,15 +68,14 @@ def price_message(data, contract=True):
             )
 
 def help_message():
-    s = '```"!pricehash": list the appraisal linked to this hashcode\n' +\
+    s = '```"!pricehash 16char_hash_code": list the appraisal linked to this hashcode\n' +\
         '"!pricehelp": list available commands\n'
     for location_code, location in LOCATIONS.items():
-        s += '"!price{}": make an appraisal in {}\n'.format(
+        s += '"!price{} paste_items_here": make an appraisal in {}\n'.format(
             location_code,
             location,
         )
-    s += '```\nfor all price appraisals, please followup the command by ' +\
-        'pasting the items into the same message.'
+    s += '```'
 
 HELP_MESSAGE = help_message()
 
@@ -115,7 +114,7 @@ async def on_message(message):
     )
 
 def main():
-    CLIENT.run(os.environ['BBD_DISCORDTOKEN'])
+    CLIENT.run(os.environ['BBDI_DISCORDTOKEN'])
 
 if __name__ == '__main__':
     main()

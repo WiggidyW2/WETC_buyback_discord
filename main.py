@@ -133,20 +133,24 @@ async def on_message(message):
 
     elif message.content.startswith('hash', 6):
         if len(message.content) >= 27:
-            out_message = try_calculate({
+            await message.channel.send(try_calculate({
                 'hash': message.content[11:27],
-            })
-            await message.channel.send(out_message)
+            }))
             return
 
-    elif len(message.content) >= 9:
+    elif len(message.content) >= 10:
         location = LOCATIONS.get(message.content[6:9])
         if location is not None:
-            out_message = try_calculate({
-                'location': location,
-                'raw': message.content[9:].replace('    ', '\t'),
-            })
-            await message.channel.send(out_message)
+            if len(message.attachments) == 1:
+                await message.channel.send(try_calculate({
+                    'location': location,
+                    'raw': (await message.attachments[0].read()).decode('utf8'),
+                }))
+            else:
+                await message.channel.send(try_calculate({
+                    'location': location,
+                    'raw': message.content[10:].replace('    ', '\t'),
+                }))
             return
 
     await message.channel.send(
